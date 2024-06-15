@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
 import axios from "axios";
 
 async function isGoogleAccessTokenValid(accessToken: string): Promise<boolean> {
@@ -14,6 +15,9 @@ async function isGoogleAccessTokenValid(accessToken: string): Promise<boolean> {
   }
 }
 
+const authedPages = ["/onboard", "/dashboard"];
+const publicPages = ["/", "/auth"];
+
 export async function middleware(request: NextRequest) {
   const accessToken = cookies().get("accessToken")?.value;
 
@@ -24,22 +28,24 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (!accessToken && !request.nextUrl.pathname.includes("/auth")) {
+  const isAuthPage = authedPages.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  );
+
+  if (!accessToken && isAuthPage) {
     const authUrl = new URL("/auth", request.url).toString();
     return NextResponse.redirect(authUrl);
   }
 
   const isTokenValid = await isGoogleAccessTokenValid(accessToken ?? "");
 
-
-  if (!isTokenValid && !request.nextUrl.pathname.includes("/auth")) {
+  if (!isTokenValid && isAuthPage) {
     const authUrl = new URL("/auth", request.url).toString();
     return NextResponse.redirect(authUrl);
   }
 
   if (isTokenValid && request.nextUrl.pathname.startsWith("/auth")) {
-    const homeUrl = new URL("/", request.url).toString();
-    return NextResponse.redirect(homeUrl);
+    return NextResponse.redirect("/dashboard");
   }
 
   return NextResponse.next();

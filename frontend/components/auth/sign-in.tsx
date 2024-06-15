@@ -43,7 +43,7 @@ const SignIn: FC = () => {
       image: user.avatar,
     });
 
-    router.push("/");
+    router.push("/onboard");
   };
 
   if (isLoading) {
@@ -55,7 +55,7 @@ const SignIn: FC = () => {
       <CardHeader>
         <div className="flex flex-col space-y-2 text-center">
           <CardTitle className="text-2xl font-semibold tracking-tight">
-            Autorepl.AI
+            AutoRepl.ai
           </CardTitle>
 
           <CardDescription className="text-sm text-muted-foreground">
