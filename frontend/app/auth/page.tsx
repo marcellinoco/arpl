@@ -1,5 +1,9 @@
-import Auth from "@/components/auth/auth";
+import SignIn from "@/components/auth/sign-in";
 
 export default function AuthPage() {
-  return <Auth />;
+  return (
+    <main className="h-screen w-full flex justify-center items-center">
+      <SignIn />
+    </main>
+  );
 }

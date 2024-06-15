@@ -1,35 +1,25 @@
-// action.ts
 "use server";
 
-import { Chat, EmailMessage, History, User } from "@/models/model";
 import { cookies } from "next/headers";
 
-import { getChatsDetails as mockGetChatsDetails } from "./mocks/mockFunction";
+import { EmailMessage, History } from "@/models/model";
 import { serverAxios } from "@/utils/axios";
 
-export async function getHistory(): Promise<{
-  emails: History[];
-}> {
+export async function getHistory(): Promise<{ emails: History[] }> {
   "use server";
   try {
     const accessToken = cookies().get("accessToken")?.value;
-    const { data } = await serverAxios.post<{
-      emails: History[];
-    }>(
+    const { data } = await serverAxios.post<{ emails: History[] }>(
       "/api/emails",
-      {
-        maxResults: 5,
-        pageToken: "",
-      },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
+      { maxResults: 5, pageToken: "" },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
     );
 
-    let e = data.emails.map((email) => {
+    const emails = data.emails.map((email) => {
       return { ...email, from: email.from.split(" <")[0] };
     });
-    data.emails = e;
+
+    data.emails = emails;
     return data;
   } catch (error) {
     console.error("Error in getHistory:", error);
@@ -37,30 +27,23 @@ export async function getHistory(): Promise<{
   }
 }
 
-export async function getChatsDetails(threadId: string): Promise<{
-  messages: EmailMessage[];
-}> {
+export async function getChatsDetails(
+  threadId: string
+): Promise<{ messages: EmailMessage[] }> {
   "use server";
   try {
     const accessToken = cookies().get("accessToken")?.value;
-    const { data } = await serverAxios.post<{
-      messages: EmailMessage[];
-    }>(
+    const { data } = await serverAxios.post<{ messages: EmailMessage[] }>(
       "/api/emails/threads",
-      {
-        threadId: threadId,
-      },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
+      { threadId },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
     );
 
-    let e = data.messages.map((message) => {
+    const emails = data.messages.map((message) => {
       return { ...message, from: message.from.split(" <")[0] };
     });
-    data.messages = e;
-    return data;
 
+    data.messages = emails;
     return data;
   } catch (error) {
     console.error("Error in getChatsDetails:", error);
