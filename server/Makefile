@@ -14,10 +14,10 @@ drop-db:
 	docker exec -it segment3d-db dropdb -U root segment3d_db
 
 migrate-up: 
-	migrate -path db/migration -database "postgresql://root:postgres@103.52.115.128:5432/autorepl?sslmode=disable" --verbose up
+	migrate -path db/migration -database "postgresql://root:postgres@localhost:5432/autorepl?sslmode=disable" --verbose up
 
 migrate-down:
-	migrate -path db/migration -database "postgresql://root:postgres@103.52.115.128:5432/autorepl?sslmode=disable" --verbose down
+	migrate -path db/migration -database "postgresql://root:postgres@localhost:5432/autorepl?sslmode=disable" --verbose down
 
 sqlc:
 	sqlc generate

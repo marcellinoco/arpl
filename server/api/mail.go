@@ -360,6 +360,16 @@ func getMessageContent(msg *gmail.Message) string {
 	return content
 }
 
+func (server *Server) isOnboarded(ctx *gin.Context) {
+	_, token, err := getUserPayload(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
+	
+}
+
 type threadRequest struct {
 	ThreadID string `json:"threadId" binding:"required"`
 }

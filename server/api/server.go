@@ -53,6 +53,7 @@ func (server *Server) setupRouter() {
 	authenticatedRouter.GET("/api/users", server.getUserData)
 	authenticatedRouter.PATCH("/api/users", server.updateUser)
 
+	authenticatedRouter.POST("/api/emails/is-onboarded", server.getEmails)
 	authenticatedRouter.POST("/api/emails", server.getEmails)
 	authenticatedRouter.POST("/api/emails/threads", server.getMessagesByThreadID)
 

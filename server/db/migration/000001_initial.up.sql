@@ -19,11 +19,11 @@ CREATE TABLE "emails" (
     "subject" VARCHAR(255) NOT NULL,
 
     "content" TEXT NOT NULL,
-    "summary" TEXT NOT NULL,
+    "summary" TEXT,
     
-    "products" TEXT[] NOT NULL,
-    "priority" VARCHAR(20) NOT NULL,
-    "mood" VARCHAR(20) NOT NULL,
+    "products" TEXT[],
+    "priority" VARCHAR(20),
+    "mood" VARCHAR(20),
     
     "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
