@@ -1,12 +1,16 @@
 import "./globals.css";
-import { Inter as FontSans } from "next/font/google";
+
 import type { Metadata } from "next";
+
 import { cn } from "@/lib/utils";
+import { Inter as FontSans } from "next/font/google";
+
 import GoogleOAuthProvider from "@/provider/google-oauth-provider";
+
 import Sidebar from "@/components/common/sidebar/sidebar";
 
 export const metadata: Metadata = {
-  title: "Autorepl.AI",
+  title: "AutoRepl.ai",
   description: "Email response makes easy",
 };
 
@@ -31,7 +35,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         suppressHydrationWarning={true}
       >
         <GoogleOAuthProvider>
-          <div className="overflow-hidden max-h-screen flex border bg-background shadow-lg">
+          <div className="overflow-hidden flex max-h-screen">
             <Sidebar />
             {children}
           </div>
